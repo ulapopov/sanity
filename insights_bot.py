@@ -114,12 +114,12 @@ async def analyze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     response = header + analysis
     
     if len(response) > 4000:
-        await update.message.reply_text(header, parse_mode='Markdown')
+        await update.message.reply_text(header)
         chunks = [analysis[i:i+4000] for i in range(0, len(analysis), 4000)]
         for chunk in chunks:
             await update.message.reply_text(chunk)
     else:
-        await update.message.reply_text(response, parse_mode='Markdown')
+        await update.message.reply_text(response)
     
     await update.message.reply_text("\n💡 Note: Google Drive saving coming soon!")
 
