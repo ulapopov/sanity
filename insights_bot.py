@@ -51,7 +51,7 @@ def get_todays_messages():
 def analyze_with_ai(messages_text):
     """Send messages to Google AI for analysis"""
     
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GOOGLE_AI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key={GOOGLE_AI_API_KEY}"
     
     prompt = f"""Analyze these daily voice notes and provide insights on:
 - Main themes and topics discussed
