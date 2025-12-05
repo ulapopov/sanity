@@ -40,10 +40,18 @@ def get_drive_service():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            if not os.path.exists('credentials.json'):
-                return None, "Google Drive credentials not found. See setup instructions."
+            # Try to load from environment variable first
+            creds_json = os.environ.get('GOOGLE_CREDENTIALS_JSON')
+            if creds_json:
+                # Write to temporary file
+                with open('/tmp/credentials.json', 'w') as f:
+                    f.write(creds_json)
+                flow = InstalledAppFlow.from_client_secrets_file('/tmp/credentials.json', SCOPES)
+            elif os.path.exists('credentials.json'):
+                flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+            else:
+                return None, "Google Drive credentials not found. Set GOOGLE_CREDENTIALS_JSON environment variable."
             
-            flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
         
         # Save credentials for next time
